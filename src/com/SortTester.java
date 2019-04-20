@@ -14,7 +14,7 @@ public class SortTester {
 
         long strangeTime = 0;
         long sdkTime = 0;
-        for (int i=0; i< 100; ++i) {
+        for (int i=0; i< 1; ++i) {
 
             List<Integer> arr = new ArrayList<>();
             for(int j=0; j<size; ++j) {
@@ -22,16 +22,16 @@ public class SortTester {
             }
 
             long start = System.nanoTime();
-            for(int k = 0; k<10000 / (size/50); ++k) {
+            for(int k = 0; k<10; ++k) {
                 List<Integer> arrClone = new ArrayList<>(arr);
-                strangeSort.sort(arrClone, runCrater, passiveCrater);
+                strangeSort.sort(arrClone, runCrater, passiveCrater, new StrangeComparator());
             }
             strangeTime += System.nanoTime() - start;
 
             long start1 = System.nanoTime();
-            for(int k = 0; k<10000 / (size/50); ++k) {
+            for(int k = 0; k<10; ++k) {
                 List<Integer> arrClone = new ArrayList<>(arr);
-                Collections.sort(arrClone);
+                Collections.sort(arrClone, new StrangeComparator());
             }
             sdkTime += System.nanoTime() - start1;
 

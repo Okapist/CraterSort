@@ -4,10 +4,13 @@ import java.util.*;
 
 public class StrangeSort {
 
-    public List<Integer> sort(List<Integer> arr, int runCrater, int passiveCrater) {
+    StrangeComparator strangeComparator = null;
+
+    public List<Integer> sort(List<Integer> arr, int runCrater, int passiveCrater, StrangeComparator strangeComparator) {
 
         List<Deque<Integer>> curLists = new ArrayList();
         PriorityQueue<Deque<Integer>> finalLists = new PriorityQueue<>(Comparator.comparingInt(Deque::size));
+        this.strangeComparator = strangeComparator;
 
         for (int i1 = 0; i1 < arr.size(); i1++) {
             int num = arr.get(i1);
@@ -15,14 +18,14 @@ public class StrangeSort {
             boolean added = false;
 
             for (int i = 0; i < curLists.size(); ++i) {
-                if (num <= curLists.get(i).getFirst()) {
+                if (strangeComparator.compare(num, curLists.get(i).getFirst()) <= 0) {
 
                     curLists.get(i).addFirst(num);
 
                     added = true;
                     break;
                 } else {
-                    if (curLists.get(i).size() == 1 || num >= curLists.get(i).getLast()) {
+                    if (curLists.get(i).size() == 1 || strangeComparator.compare(num, curLists.get(i).getLast()) >=0) {
 
                         curLists.get(i).addLast(num);
 
@@ -72,7 +75,7 @@ public class StrangeSort {
                 break;
             }
 
-            if (a.getFirst() < b.getFirst()) {
+            if (strangeComparator.compare(a.getFirst(),b.getFirst()) < 0) {
                 c.add(a.getFirst());
                 a.removeFirst();
             } else {
